@@ -19,3 +19,7 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/exchange](https://hexdocs.pm/exchange).
 
+## Testing
+
+1. Start local RabbitMQ service
+2. Run `mix deps.get && mix test` or `mix test`
