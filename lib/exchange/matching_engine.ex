@@ -156,7 +156,7 @@ defmodule Exchange.MatchingEngine do
   end
 
   defp via_tuple(ticker) do
-    {:via, Registry, {:matching_engine_registry, ticker}}
+    {:via, Registry, {Exchange.Registry, ticker}}
   end
 
   # Server

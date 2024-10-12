@@ -4,7 +4,6 @@ defmodule Exchange.Application do
   @moduledoc false
 
   use Application
-  import Supervisor.Spec
 
   @spec start(any, any) :: {:error, any} | {:ok, pid}
   def start(_type, _args) do
@@ -17,7 +16,7 @@ defmodule Exchange.Application do
     with {:ok, time_series_children} <- time_series_adapter.init(),
          {:ok, message_bus_children} <- message_bus_module.init() do
       children =
-        [supervisor(Registry, [:unique, :matching_engine_registry])] ++
+        [{Registry, keys: :unique, name: Exchange.Registry}] ++
           message_bus_children ++
           time_series_children ++
           Exchange.Application.create_tickers()
@@ -40,14 +39,17 @@ defmodule Exchange.Application do
          is_tuple(ticker) and tuple_size(ticker) == 4
        end) do
       tickers
-      |> Enum.map(fn ticker_config when is_tuple(ticker_config) ->
+      |> Enum.map(fn ticker_config -> # when is_tuple(ticker_config)
         {ticker, currency, min_price, max_price} = ticker_config
 
-        supervisor(
-          Exchange.MatchingEngine,
-          [[ticker: ticker, currency: currency, min_price: min_price, max_price: max_price]],
-          id: ticker
-        )
+        %{
+          id: ticker,
+          start: {
+            Exchange.MatchingEngine,
+            :start_link,
+            [[ticker: ticker, currency: currency, min_price: min_price, max_price: max_price]]
+          }
+        }
       end)
     else
       raise RuntimeError, message: "Invalid ticker configuration"

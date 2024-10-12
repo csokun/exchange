@@ -9,7 +9,7 @@ defmodule Exchange.MixProject do
       config_path: "config/config.exs",
       deps_path: "deps",
       lockfile: "mix.lock",
-      elixir: "~> 1.11",
+      elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       description: description(),
       package: package(),
@@ -40,18 +40,18 @@ defmodule Exchange.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:benchee, "~> 1.0", only: :dev, optional: true},
+      {:benchee, "~> 1.3", only: :dev, optional: true},
       {:benchee_html, "~> 1.0", only: :dev, optional: true},
-      {:credo, "~> 1.3", only: [:dev, :test], runtime: false, optional: true},
+      {:credo, "~> 1.7.8", only: [:dev, :test], runtime: false, optional: true},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false, optional: true},
-      {:excoveralls, "~> 0.10", only: :test, optional: true},
-      {:mox, "~> 1.0.0", only: :test, optional: true},
-      {:instream, "~> 1.0", optional: true},
-      {:amqp, "~> 1.0", optional: true},
-      {:money, "~> 1.7"},
+      {:excoveralls, "~> 0.18.3", only: :test, optional: true},
+      {:mox, "~> 1.2", only: :test, optional: true},
+      {:instream, "~> 2.2", optional: true},
+      {:amqp, "~> 3.3", optional: true},
+      {:money, "~> 1.13"},
       {:qex, "~> 0.5"},
-      {:elixir_uuid, "~> 1.2"},
-      {:typed_struct, "~> 0.2"}
+      {:elixir_uuid, "~> 1.2.1"},
+      {:typed_struct, "~> 0.3"}
     ]
   end
 

@@ -73,7 +73,7 @@ if Code.ensure_loaded?(AMQP) do
 
           _ ->
             :ok = Basic.reject(channel, tag, requeue: false)
-            Logger.warn("Unknown event: #{event}")
+            Logger.warning("Unknown event: #{event}")
         end
 
       json_payload = Map.get(message, :payload)
@@ -90,7 +90,7 @@ if Code.ensure_loaded?(AMQP) do
     rescue
       exception ->
         :ok = Basic.reject(channel, tag, requeue: not redelivered)
-        Logger.warn("Error converting payload: #{inspect(exception)}")
+        Logger.warning("Error converting payload: #{inspect(exception)}")
     end
 
     def handle_info(

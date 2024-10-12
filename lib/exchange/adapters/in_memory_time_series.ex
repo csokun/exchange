@@ -15,9 +15,10 @@ defmodule Exchange.Adapters.InMemoryTimeSeries do
 
   def init do
     children = [
-      Supervisor.Spec.supervisor(Exchange.Adapters.InMemoryTimeSeries, [[]],
-        id: :in_memory_time_series
-      )
+      %{
+        id: :in_memory_time_series,
+        start: {Exchange.Adapters.InMemoryTimeSeries, :start_link ,[[]]}
+      }
     ]
 
     {:ok, children}

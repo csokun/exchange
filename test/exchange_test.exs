@@ -25,7 +25,7 @@ defmodule ExchangeTest do
       pids =
         config
         |> Enum.map(fn {id, _currency, _min_price, _max_price} ->
-          GenServer.whereis({:via, Registry, {:matching_engine_registry, id}})
+          GenServer.whereis({:via, Registry, {Exchange.Registry, id}})
         end)
         |> Enum.filter(fn p_id -> p_id == nil end)
 

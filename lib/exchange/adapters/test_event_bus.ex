@@ -26,7 +26,7 @@ defmodule Exchange.Adapters.TestEventBus do
   @events ~w(trade_executed order_queued order_cancelled order_expired price_broadcast)a
 
   def init do
-    {:ok, [Supervisor.Spec.supervisor(Exchange.Adapters.TestEventBus, [Qex.new()])]}
+    {:ok, [{Exchange.Adapters.TestEventBus, [Qex.new()]}]}
   end
 
   @doc """
