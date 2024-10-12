@@ -32,7 +32,7 @@ if Code.ensure_loaded?(AMQP) do
     end
 
     def handle_info(:connect, _state) do
-      case Connection.open() do
+      case Connection.open("amqp://guest:guest@localhost") do
         {:ok, conn} ->
           {:ok, chan} = AMQP.Channel.open(conn)
 
