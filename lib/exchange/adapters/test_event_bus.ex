@@ -7,6 +7,8 @@ defmodule Exchange.Adapters.TestEventBus do
   use Agent
   use Exchange.MessageBus, required_config: [], required_deps: []
 
+  require Logger
+
   def start_link(initial_value \\ Qex.new()) do
     Agent.start_link(fn -> initial_value end, name: __MODULE__)
   end
@@ -16,7 +18,9 @@ defmodule Exchange.Adapters.TestEventBus do
   end
 
   def append(payload) do
-    Agent.update(__MODULE__, &Qex.push(&1, payload))
+    Agent.update(__MODULE__, fn q ->
+      Qex.push(q, payload)
+    end)
   end
 
   def flush do
@@ -88,6 +92,11 @@ defmodule Exchange.Adapters.TestEventBus do
 
   def cast_event(:price_broadcast, payload),
     do: dispatch_event(:price_broadcast, payload)
+
+  def handle_cast({:cast_event, key, payload}, state) do
+    Logger.debug("Event: #{inspect(key)} with payload: #{inspect(payload)}")
+    {:noreply, state}
+  end
 
   defp dispatch_event(key, payload) do
     if Application.get_env(:exchange, :environment, :prod) == :test do

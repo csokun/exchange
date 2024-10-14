@@ -310,7 +310,7 @@ defmodule Exchange.Utils do
           price: 3960
         }
       ]
-      |> Enum.map(&%{&1 | acknowledged_at: DateTime.utc_now() |> DateTime.to_unix(:nanosecond)})
+      |> Enum.map(&%{&1 | acknowledged_at: System.os_time()})
 
     sell_book =
       [
@@ -355,7 +355,7 @@ defmodule Exchange.Utils do
           price: 4020
         }
       ]
-      |> Enum.map(&%{&1 | acknowledged_at: DateTime.utc_now() |> DateTime.to_unix(:nanosecond)})
+      |> Enum.map(&%{&1 | acknowledged_at: System.os_time()})
 
     order_book = %Exchange.OrderBook{
       name: ticker,
@@ -401,7 +401,7 @@ defmodule Exchange.Utils do
       type: type,
       exp_time: DateTime.utc_now() |> DateTime.to_unix(:millisecond),
       ticker: ticker,
-      acknowledged_at: DateTime.utc_now() |> DateTime.to_unix(:nanosecond)
+      acknowledged_at: System.os_time()
     }
   end
 
